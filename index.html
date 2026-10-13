@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo de serviços de depilação premium">
+    <meta name="theme-color" content="#d4a5a5">
+    <title>Carol - Depilação Premium</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23d4a5a5' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='%23fff' text-anchor='middle' font-family='Georgia'>C</text></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Carol">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #d4a5a5;
+            --color-primary-light: #e8c5c5;
+            --color-primary-dark: #b08888;
+            --color-accent: #f5e6e6;
+            --color-white: #ffffff;
+            --color-text: #333333;
+            --color-text-light: #666666;
+            --color-border: #e0d0d0;
+            --color-success: #4caf50;
+            --color-warning: #ff9800;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --transition: 0.3s ease;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Georgia', serif;
+            background: var(--color-accent);
+            color: var(--color-text);
+            overflow-x: hidden;
+        }
+
+        body.prefers-reduced-motion * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* Layout principal */
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--color-white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-decoration: none;
+            color: var(--color-primary-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .navbar-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: var(--color-primary-dark);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-text);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 165, 165, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: white;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: var(--spacing-xl);
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-color: white;
+        }
+
+        .hero .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Search & Filter */
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(212, 165, 165, 0.1);
+        }
+
+        .filters {
+            display: flex;
+            gap: var(--spacing-xs);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--color-border);
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        /* Grid de serviços */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all var(--transition);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(212, 165, 165, 0.15);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--color-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            background: var(--color-warning);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .service-content {
+            padding: var(--spacing-md);
+        }
+
+        .service-category {
+            font-size: 0.75rem;
+            color: var(--color-primary-dark);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .service-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text);
+        }
+
+        .service-description {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.5;
+        }
+
+        .service-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .service-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+        }
+
+        .service-btn {
+            background: var(--color-primary-dark);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all var(--transition);
+        }
+
+        .service-card:hover .service-btn, .service-btn:hover {
+            background: var(--color-primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* Modal de detalhes */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            position: relative;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: var(--spacing-md);
+            left: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: var(--spacing-lg);
+        }
+
+        .modal-category {
+            font-size: 0.75rem;
+            color: var(--color-primary-dark);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .modal-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+        }
+
+        .modal-description {
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .modal-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        /* Editor */
+        .editor-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 16px rgba(0, 0, 0, 0.15);
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform var(--transition), visibility var(--transition);
+            z-index: 900;
+            overflow-y: auto;
+        }
+
+        .editor-panel.active {
+            transform: translateX(0);
+            visibility: visible;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--color-primary-dark);
+            outline-offset: 2px;
+        }
+
+        .demo-note {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .editor-hint {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+            margin-top: var(--spacing-xs);
+        }
+
+        .footer button.link-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            text-decoration: underline;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .editor-header {
+            padding: var(--spacing-lg);
+            background: var(--color-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .editor-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .editor-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all var(--transition);
+        }
+
+        .editor-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .editor-content {
+            padding: var(--spacing-lg);
+        }
+
+        .editor-section {
+            background: var(--color-accent);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .editor-section h3 {
+            color: var(--color-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.1rem;
+        }
+
+        .editor-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .editor-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text);
+            font-size: 0.9rem;
+        }
+
+        .editor-input,
+        .editor-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all var(--transition);
+        }
+
+        .editor-input:focus,
+        .editor-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(212, 165, 165, 0.1);
+        }
+
+        .color-picker {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: var(--color-text);
+            box-shadow: 0 0 0 2px white;
+        }
+
+        .services-list {
+            margin-top: var(--spacing-md);
+        }
+
+        .service-item {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: 6px;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .service-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .service-item-name {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .service-item-actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.4rem;
+            transition: all var(--transition);
+        }
+
+        .btn-icon:hover {
+            color: var(--color-primary);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .form-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 1200;
+            display: none;
+            animation: slideUp 0.4s ease;
+        }
+
+        .form-modal.active {
+            display: block;
+        }
+
+        .form-modal h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: var(--spacing-lg);
+            left: var(--spacing-lg);
+            background: var(--color-success);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            animation: slideUp 0.3s ease;
+            z-index: 2000;
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--color-text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer {
+            background: var(--color-white);
+            padding: var(--spacing-lg);
+            text-align: center;
+            border-top: 1px solid var(--color-border);
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-content {
+                padding: var(--spacing-md);
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: var(--spacing-md);
+            }
+
+            .editor-panel {
+                max-width: 100%;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-input {
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --spacing-lg: 1.5rem;
+                --spacing-md: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .modal-name {
+                font-size: 1.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar-logo {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo" id="brand-logo" aria-hidden="true">C</div>
+                <span id="brand-name">Carol</span>
+            </a>
+            <div class="navbar-actions">
+                <button class="btn btn-primary" id="nav-whatsapp" type="button">WhatsApp</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <main class="main-content">
+            <section class="hero">
+                <h1 id="hero-title">Carol</h1>
+                <p id="hero-subtitle">Depilação com cuidado, delicadeza e acabamento impecável</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-secondary" type="button" onclick="scrollToServices()">Ver serviços</button>
+                    <button class="btn btn-primary" type="button" id="hero-whatsapp">Falar pelo WhatsApp</button>
+                </div>
+            </section>
+            <p class="demo-note">Valores demonstrativos para apresentação.</p>
+
+            <div class="search-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="Buscar serviço..." aria-label="Buscar serviço">
+                <div class="filters" id="filters"></div>
+            </div>
+
+            <section id="services-section" aria-label="Serviços">
+                <div class="services-grid" id="services-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="service-modal" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" type="button" onclick="closeModal()" aria-label="Fechar">✕</button>
+                <span id="modal-emoji" aria-hidden="true"></span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-category" id="modal-category"></div>
+                <h2 class="modal-name" id="modal-name"></h2>
+                <p class="modal-description" id="modal-description"></p>
+                <div class="modal-price" id="modal-price"></div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" type="button" style="flex: 1;" id="modal-whatsapp">Agendar pelo WhatsApp</button>
+                    <button class="btn btn-secondary" type="button" style="flex: 1;" id="modal-copy">Copiar mensagem</button>
+                    <button class="btn btn-secondary" type="button" style="flex: 1;" onclick="closeModal()">Voltar ao catálogo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor-panel" id="editor-panel">
+        <div class="editor-header">
+            <h2>Editar Catálogo</h2>
+            <button class="editor-close" type="button" onclick="toggleEditor()" aria-label="Fechar editor">✕</button>
+        </div>
+        <div class="editor-content">
+            <p class="editor-hint" style="margin-bottom: var(--spacing-md);">Os preços de demonstração são fictícios. As alterações ficam salvas neste aparelho/navegador.</p>
+            <div class="editor-section">
+                <h3>Configurações da Marca</h3>
+                <div class="editor-group">
+                    <label class="editor-label" for="edit-brand-name">Nome do negócio</label>
+                    <input type="text" class="editor-input" id="edit-brand-name" maxlength="40">
+                </div>
+                <div class="editor-group">
+                    <label class="editor-label" for="edit-brand-subtitle">Frase de apresentação</label>
+                    <input type="text" class="editor-input" id="edit-brand-subtitle" maxlength="120">
+                </div>
+                <div class="editor-group">
+                    <span class="editor-label">Cor principal</span>
+                    <div class="color-picker" id="color-picker"></div>
+                </div>
+                <div class="editor-group">
+                    <label class="editor-label" for="edit-whatsapp">Número do WhatsApp (país + DDD + número)</label>
+                    <input type="tel" class="editor-input" id="edit-whatsapp" placeholder="5521999999999">
+                    <p class="editor-hint">Somente números. Ex.: 5521987654321</p>
+                </div>
+                <div class="editor-group">
+                    <label class="editor-label" for="edit-whatsapp-msg">Mensagem do WhatsApp</label>
+                    <input type="text" class="editor-input" id="edit-whatsapp-msg" maxlength="200">
+                    <p class="editor-hint">Use {servico} onde o nome do serviço deve aparecer.</p>
+                </div>
+                <button class="btn btn-primary" type="button" style="width: 100%;" onclick="saveBrandSettings()">Salvar configurações</button>
+            </div>
+
+            <div class="editor-section">
+                <h3>Serviços</h3>
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: var(--spacing-md);" onclick="openAddServiceForm()">+ Novo Serviço</button>
+                <div class="services-list" id="edit-services-list"></div>
+            </div>
+
+            <div class="editor-section">
+                <h3>Dados e Backup</h3>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: var(--spacing-sm);" onclick="exportData()">📥 Exportar JSON</button>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: var(--spacing-sm);" onclick="importData()">📤 Importar JSON</button>
+                <button class="btn btn-secondary" style="width: 100%; margin-bottom: var(--spacing-sm);" onclick="exportHTML()">💾 Exportar HTML Offline</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="resetToDemo()">↻ Restaurar Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay" ></div>
+
+    <div class="form-modal" id="form-modal" role="dialog" aria-modal="true" aria-labelledby="form-title">
+        <h3 id="form-title">Novo Serviço</h3>
+        <div class="form-group">
+            <label class="editor-label" for="form-name">Nome do Serviço</label>
+            <input type="text" class="editor-input" id="form-name" placeholder="Ex: Buço">
+        </div>
+        <div class="form-group">
+            <label class="editor-label" for="form-category">Categoria</label>
+            <select class="editor-select" id="form-category">
+                <option value="rosto">Rosto</option>
+                <option value="corpo">Corpo</option>
+                <option value="virilha">Virilha</option>
+                <option value="combo">Combo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="editor-label" for="form-description">Descrição</label>
+            <textarea class="editor-input" id="form-description" placeholder="Descrição do serviço" style="resize: vertical; min-height: 80px;"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="editor-label" for="form-price">Preço (R$)</label>
+            <input type="number" class="editor-input" id="form-price" placeholder="0,00" step="0.01" min="0.01" inputmode="decimal">
+        </div>
+        <div class="form-group">
+            <label class="editor-label">
+                <input type="checkbox" id="form-is-combo"> Destaque como Combo/Oferta
+            </label>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-primary" onclick="saveService()">Salvar</button>
+            <button class="btn btn-secondary" onclick="closeFormModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 <span id="footer-brand">Carol</span> — Catálogo digital · <span id="offline-status">Online</span> · <button type="button" class="link-btn" id="edit-btn">Área de edição</button></p>
+    </footer>
+
+    <script>
+        // ===== Dados demonstrativos =====
+        const DATA_VERSION = 2;
+        const STORAGE_KEY = 'carol-catalog-v2';
+
+        const DEFAULT_COLORS = [
+            { name: 'Rosa Blush', value: '#d4a5a5' },
+            { name: 'Rosa Antigo', value: '#c48b8b' },
+            { name: 'Coral', value: '#e8947e' },
+            { name: 'Lavanda', value: '#b9a5d4' },
+            { name: 'Salmão', value: '#e89a9a' }
+        ];
+
+        const CATEGORY_LABELS = { rosto: 'Rosto', corpo: 'Corpo', virilha: 'Virilha', combo: 'Combo' };
+        const CATEGORY_EMOJIS = { rosto: '🌸', corpo: '✨', virilha: '💎', combo: '🎁' };
+
+        const DEFAULT_SERVICES = [
+            { id: 1, name: 'Buço', category: 'rosto', description: 'Remoção delicada dos pelos do buço, com cuidado para a pele sensível do rosto.', price: 15.00, isCombo: false, isActive: true },
+            { id: 2, name: 'Axilas', category: 'corpo', description: 'Depilação das axilas com acabamento limpo e uniforme.', price: 25.00, isCombo: false, isActive: true },
+            { id: 3, name: 'Meia perna', category: 'corpo', description: 'Depilação do tornozelo até o joelho.', price: 35.00, isCombo: false, isActive: true },
+            { id: 4, name: 'Perna completa', category: 'corpo', description: 'Depilação da perna inteira, do tornozelo até a coxa.', price: 55.00, isCombo: false, isActive: true },
+            { id: 5, name: 'Virilha simples', category: 'virilha', description: 'Depilação das laterais da virilha (linha do biquíni).', price: 35.00, isCombo: false, isActive: true },
+            { id: 6, name: 'Virilha completa', category: 'virilha', description: 'Depilação completa da região da virilha.', price: 50.00, isCombo: false, isActive: true },
+            { id: 7, name: 'Braços completos', category: 'corpo', description: 'Depilação dos braços, do punho até o ombro.', price: 40.00, isCombo: false, isActive: true },
+            { id: 8, name: 'Rosto completo', category: 'rosto', description: 'Buço, queixo, laterais e demais áreas do rosto.', price: 35.00, isCombo: false, isActive: true },
+            { id: 9, name: 'Combo axilas + virilha', category: 'combo', description: 'Axilas e virilha em um único atendimento, com valor especial.', price: 65.00, isCombo: true, isActive: true },
+            { id: 10, name: 'Combo perna completa + virilha completa', category: 'combo', description: 'Perna completa e virilha completa juntas, com valor especial.', price: 90.00, isCombo: true, isActive: true }
+        ];
+
+        function defaultState() {
+            return {
+                version: DATA_VERSION,
+                brandName: 'Carol',
+                brandSubtitle: 'Depilação com cuidado, delicadeza e acabamento impecável',
+                primaryColor: '#d4a5a5',
+                whatsapp: '5521999999999',
+                whatsappMessage: 'Olá! Gostaria de agendar o serviço: {servico}',
+                services: JSON.parse(JSON.stringify(DEFAULT_SERVICES))
+            };
+        }
+
+        let appState = defaultState();
+        let editingServiceId = null;
+        let activeCategory = 'all';
+
+        // ===== Utilidades =====
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function formatPrice(value) {
+            return 'R$ ' + Number(value).toFixed(2).replace('.', ',');
+        }
+
+        function isValidHex(hex) {
+            return /^#[0-9a-fA-F]{6}$/.test(hex);
+        }
+
+        function sanitizeState(raw) {
+            if (!raw || typeof raw !== 'object' || !Array.isArray(raw.services)) {
+                throw new Error('Arquivo sem lista de serviços');
+            }
+            const base = defaultState();
+            const services = raw.services.map((s, i) => {
+                const price = Number(s.price);
+                if (!s || typeof s.name !== 'string' || !s.name.trim() || !isFinite(price) || price <= 0) {
+                    throw new Error('Serviço inválido na posição ' + (i + 1));
+                }
+                return {
+                    id: Number.isInteger(s.id) ? s.id : i + 1,
+                    name: s.name.trim().slice(0, 80),
+                    category: CATEGORY_LABELS[s.category] ? s.category : 'corpo',
+                    description: String(s.description || '').trim().slice(0, 400),
+                    price: Math.round(price * 100) / 100,
+                    isCombo: Boolean(s.isCombo),
+                    isActive: s.isActive !== false
+                };
+            });
+            return {
+                version: DATA_VERSION,
+                brandName: typeof raw.brandName === 'string' && raw.brandName.trim() ? raw.brandName.trim().slice(0, 40) : base.brandName,
+                brandSubtitle: typeof raw.brandSubtitle === 'string' ? raw.brandSubtitle.trim().slice(0, 120) : base.brandSubtitle,
+                primaryColor: isValidHex(raw.primaryColor) ? raw.primaryColor : base.primaryColor,
+                whatsapp: String(raw.whatsapp || '').replace(/\D/g, '') || base.whatsapp,
+                whatsappMessage: typeof raw.whatsappMessage === 'string' && raw.whatsappMessage.trim() ? raw.whatsappMessage.slice(0, 200) : base.whatsappMessage,
+                services
+            };
+        }
+
+        // ===== Inicialização =====
+        function init() {
+            loadData();
+            applyTheme();
+            renderBrand();
+            updateCategoryFilters();
+            renderServices();
+            setupEventListeners();
+            updateOnlineStatus();
+            registerServiceWorker();
+            if (location.hash === '#editar') toggleEditor();
+        }
+
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+                navigator.serviceWorker.register('sw.js').catch(() => {
+                    console.log('Service Worker não registrado neste ambiente');
+                });
+            }
+        }
+
+        // ===== Armazenamento =====
+        function loadData() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                appState = stored ? sanitizeState(JSON.parse(stored)) : defaultState();
+            } catch (e) {
+                appState = defaultState();
+            }
+        }
+
+        function saveData(message = 'Alterações salvas') {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+                showNotification(message);
+                return true;
+            } catch (e) {
+                showNotification('Não foi possível salvar. O armazenamento do navegador pode estar cheio ou bloqueado.', 'error');
+                return false;
+            }
+        }
+
+        // ===== Tema e marca =====
+        function applyTheme() {
+            const root = document.documentElement.style;
+            root.setProperty('--color-primary', appState.primaryColor);
+            root.setProperty('--color-primary-light', adjustBrightness(appState.primaryColor, 0.35));
+            root.setProperty('--color-primary-dark', adjustBrightness(appState.primaryColor, -0.3));
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', appState.primaryColor);
+        }
+
+        function adjustBrightness(hex, percent) {
+            const parts = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+            const adjusted = parts.map(c => percent >= 0
+                ? Math.round(c + (255 - c) * percent)
+                : Math.round(c * (1 + percent)));
+            return '#' + adjusted.map(x => Math.min(255, Math.max(0, x)).toString(16).padStart(2, '0')).join('');
+        }
+
+        function renderBrand() {
+            document.getElementById('brand-name').textContent = appState.brandName;
+            document.getElementById('footer-brand').textContent = appState.brandName;
+            document.getElementById('hero-title').textContent = appState.brandName;
+            document.getElementById('hero-subtitle').textContent = appState.brandSubtitle;
+            document.getElementById('brand-logo').textContent = appState.brandName.charAt(0).toUpperCase();
+            document.title = appState.brandName + ' — Catálogo de Depilação';
+        }
+
+        // ===== Catálogo público =====
+        function getCategoryLabel(category) {
+            return CATEGORY_LABELS[category] || category;
+        }
+
+        function getEmojiForCategory(category) {
+            return CATEGORY_EMOJIS[category] || '✨';
+        }
+
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+
+            const filtered = appState.services.filter(service => {
+                const matchesSearch = !searchTerm ||
+                    service.name.toLowerCase().includes(searchTerm) ||
+                    service.description.toLowerCase().includes(searchTerm);
+                const matchesFilter = activeCategory === 'all' || service.category === activeCategory;
+                return service.isActive && matchesSearch && matchesFilter;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><div class="empty-state-icon">🔍</div><p>Nenhum serviço encontrado</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(service => `
+                <article class="service-card" data-id="${service.id}" tabindex="0" role="button" aria-label="Ver detalhes de ${escapeHTML(service.name)}">
+                    <div class="service-image" aria-hidden="true">
+                        ${getEmojiForCategory(service.category)}
+                        ${service.isCombo ? '<div class="service-badge">Combo</div>' : ''}
+                    </div>
+                    <div class="service-content">
+                        <div class="service-category">${escapeHTML(getCategoryLabel(service.category))}</div>
+                        <h3 class="service-name">${escapeHTML(service.name)}</h3>
+                        <p class="service-description">${escapeHTML(service.description)}</p>
+                        <div class="service-footer">
+                            <span class="service-price">${formatPrice(service.price)}</span>
+                            <span class="service-btn" aria-hidden="true">Ver detalhes</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function updateCategoryFilters() {
+            const used = new Set(appState.services.filter(s => s.isActive).map(s => s.category));
+            const categories = ['all', ...Object.keys(CATEGORY_LABELS).filter(c => used.has(c))];
+            if (!categories.includes(activeCategory)) activeCategory = 'all';
+            document.getElementById('filters').innerHTML = categories.map(cat => {
+                const label = cat === 'all' ? 'Todos' : getCategoryLabel(cat);
+                const active = cat === activeCategory;
+                return `<button type="button" class="filter-btn ${active ? 'active' : ''}" data-category="${cat}" aria-pressed="${active}">${label}</button>`;
+            }).join('');
+        }
+
+        function filterByCategory(category) {
+            activeCategory = category;
+            updateCategoryFilters();
+            renderServices();
+        }
+
+        // ===== Detalhes e WhatsApp =====
+        let lastFocused = null;
+
+        function openServiceDetail(id) {
+            const service = appState.services.find(s => s.id === id);
+            if (!service) return;
+            lastFocused = document.activeElement;
+
+            document.getElementById('modal-emoji').textContent = getEmojiForCategory(service.category);
+            document.getElementById('modal-category').textContent = getCategoryLabel(service.category);
+            document.getElementById('modal-name').textContent = service.name;
+            document.getElementById('modal-description').textContent = service.description;
+            document.getElementById('modal-price').textContent = formatPrice(service.price);
+            document.getElementById('modal-whatsapp').onclick = () => openWhatsApp(service.name);
+            document.getElementById('modal-copy').onclick = () => copyMessage(service.name);
+
+            document.getElementById('service-modal').classList.add('active');
+            document.querySelector('#service-modal .modal-close').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('service-modal').classList.remove('active');
+            if (lastFocused && lastFocused.focus) lastFocused.focus();
+        }
+
+        function buildMessage(serviceName) {
+            if (!serviceName) return 'Olá! Gostaria de agendar um horário.';
+            const template = appState.whatsappMessage || 'Olá! Gostaria de agendar o serviço: {servico}';
+            return template.includes('{servico}')
+                ? template.split('{servico}').join(serviceName)
+                : template + ' (' + serviceName + ')';
+        }
+
+        function buildWhatsAppUrl(serviceName) {
+            return `https://wa.me/${appState.whatsapp}?text=${encodeURIComponent(buildMessage(serviceName))}`;
+        }
+
+        function openWhatsApp(serviceName) {
+            if (!navigator.onLine) {
+                showNotification('Sem internet: o WhatsApp precisa de conexão. Use "Copiar mensagem".', 'error');
+                return;
+            }
+            window.open(buildWhatsAppUrl(serviceName), '_blank', 'noopener');
+        }
+
+        async function copyMessage(serviceName) {
+            const text = buildMessage(serviceName);
+            try {
+                await navigator.clipboard.writeText(text);
+                showNotification('Mensagem copiada');
+            } catch (e) {
+                const area = document.createElement('textarea');
+                area.value = text;
+                document.body.appendChild(area);
+                area.select();
+                let ok = false;
+                try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+                area.remove();
+                showNotification(ok ? 'Mensagem copiada' : 'Não foi possível copiar automaticamente', ok ? 'success' : 'error');
+            }
+        }
+
+        // ===== Editor =====
+        function toggleEditor() {
+            const panel = document.getElementById('editor-panel');
+            if (panel.classList.contains('active')) {
+                panel.classList.remove('active');
+                if (location.hash === '#editar') history.replaceState(null, '', location.pathname + location.search);
+                return;
+            }
+            document.getElementById('edit-brand-name').value = appState.brandName;
+            document.getElementById('edit-brand-subtitle').value = appState.brandSubtitle;
+            document.getElementById('edit-whatsapp').value = appState.whatsapp;
+            document.getElementById('edit-whatsapp-msg').value = appState.whatsappMessage;
+            renderColorPicker();
+            renderServicesEditList();
+            panel.classList.add('active');
+            document.getElementById('edit-brand-name').focus();
+        }
+
+        function renderColorPicker() {
+            document.getElementById('color-picker').innerHTML = DEFAULT_COLORS.map(color => `
+                <button type="button" class="color-option ${color.value === appState.primaryColor ? 'selected' : ''}"
+                     style="background-color: ${color.value}" data-color="${color.value}"
+                     title="${color.name}" aria-label="${color.name}" aria-pressed="${color.value === appState.primaryColor}"></button>
+            `).join('');
+        }
+
+        function changeColor(color) {
+            if (!isValidHex(color)) return;
+            appState.primaryColor = color;
+            applyTheme();
+            renderColorPicker();
+            saveData('Cor atualizada');
+        }
+
+        function saveBrandSettings() {
+            const name = document.getElementById('edit-brand-name').value.trim();
+            const subtitle = document.getElementById('edit-brand-subtitle').value.trim();
+            const phone = document.getElementById('edit-whatsapp').value.replace(/\D/g, '');
+            const msg = document.getElementById('edit-whatsapp-msg').value.trim();
+
+            if (!name) { showNotification('Informe o nome do negócio', 'error'); return; }
+            if (phone.length < 10 || phone.length > 15) { showNotification('Número de WhatsApp inválido (use país + DDD + número)', 'error'); return; }
+
+            appState.brandName = name;
+            appState.brandSubtitle = subtitle;
+            appState.whatsapp = phone;
+            appState.whatsappMessage = msg || 'Olá! Gostaria de agendar o serviço: {servico}';
+            document.getElementById('edit-whatsapp').value = phone;
+            renderBrand();
+            saveData('Configurações salvas');
+        }
+
+        function renderServicesEditList() {
+            const list = document.getElementById('edit-services-list');
+            list.innerHTML = appState.services.map(service => `
+                <div class="service-item" style="${service.isActive ? '' : 'opacity: 0.55;'}">
+                    <div class="service-item-header">
+                        <span class="service-item-name">${escapeHTML(service.name)}${service.isCombo ? ' · 🎁' : ''}</span>
+                        <div class="service-item-actions">
+                            <button type="button" class="btn-icon" data-action="edit" data-id="${service.id}" title="Editar" aria-label="Editar ${escapeHTML(service.name)}">✎</button>
+                            <button type="button" class="btn-icon" data-action="toggle" data-id="${service.id}" title="${service.isActive ? 'Desativar' : 'Ativar'}" aria-label="${service.isActive ? 'Desativar' : 'Ativar'} ${escapeHTML(service.name)}">${service.isActive ? '👁' : '🚫'}</button>
+                            <button type="button" class="btn-icon" data-action="delete" data-id="${service.id}" title="Excluir" aria-label="Excluir ${escapeHTML(service.name)}">🗑</button>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--color-text-light);">${formatPrice(service.price)} • ${escapeHTML(getCategoryLabel(service.category))} • ${service.isActive ? 'Ativo' : 'Inativo'}</div>
+                </div>
+            `).join('');
+        }
+
+        function openFormModal() {
+            document.getElementById('form-modal').classList.add('active');
+            document.getElementById('modal-overlay').classList.add('active');
+            document.getElementById('form-name').focus();
+        }
+
+        function openAddServiceForm() {
+            editingServiceId = null;
+            document.getElementById('form-title').textContent = 'Novo serviço';
+            document.getElementById('form-name').value = '';
+            document.getElementById('form-category').value = 'corpo';
+            document.getElementById('form-description').value = '';
+            document.getElementById('form-price').value = '';
+            document.getElementById('form-is-combo').checked = false;
+            openFormModal();
+        }
+
+        function editService(id) {
+            const service = appState.services.find(s => s.id === id);
+            if (!service) return;
+            editingServiceId = id;
+            document.getElementById('form-title').textContent = 'Editar serviço';
+            document.getElementById('form-name').value = service.name;
+            document.getElementById('form-category').value = service.category;
+            document.getElementById('form-description').value = service.description;
+            document.getElementById('form-price').value = service.price;
+            document.getElementById('form-is-combo').checked = service.isCombo;
+            openFormModal();
+        }
+
+        function saveService() {
+            const name = document.getElementById('form-name').value.trim().slice(0, 80);
+            const category = document.getElementById('form-category').value;
+            const description = document.getElementById('form-description').value.trim().slice(0, 400);
+            const price = Math.round(parseFloat(String(document.getElementById('form-price').value).replace(',', '.')) * 100) / 100;
+            const isCombo = document.getElementById('form-is-combo').checked;
+
+            if (!name || !description || !isFinite(price) || price <= 0 || !CATEGORY_LABELS[category]) {
+                showNotification('Preencha nome, descrição e um preço maior que zero', 'error');
+                return;
+            }
+
+            if (editingServiceId !== null) {
+                const service = appState.services.find(s => s.id === editingServiceId);
+                Object.assign(service, { name, category, description, price, isCombo });
+            } else {
+                const newId = Math.max(0, ...appState.services.map(s => s.id)) + 1;
+                appState.services.push({ id: newId, name, category, description, price, isCombo, isActive: true });
+            }
+
+            saveData('Serviço salvo');
+            closeFormModal();
+            refreshAll();
+        }
+
+        function deleteService(id) {
+            const service = appState.services.find(s => s.id === id);
+            if (!service) return;
+            if (confirm(`Excluir o serviço "${service.name}"? Esta ação não pode ser desfeita.`)) {
+                appState.services = appState.services.filter(s => s.id !== id);
+                saveData('Serviço excluído');
+                refreshAll();
+            }
+        }
+
+        function toggleServiceActive(id) {
+            const service = appState.services.find(s => s.id === id);
+            if (!service) return;
+            service.isActive = !service.isActive;
+            saveData(service.isActive ? 'Serviço ativado' : 'Serviço desativado');
+            refreshAll();
+        }
+
+        function refreshAll() {
+            updateCategoryFilters();
+            renderServices();
+            renderServicesEditList();
+        }
+
+        function closeFormModal() {
+            document.getElementById('form-modal').classList.remove('active');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        // ===== Backup =====
+        async function downloadFile(content, filename, type, okMessage) {
+            // Na hospedagem do Claude, o download passa pela permissão "downloads".
+            // Em GitHub Pages, localhost ou arquivo local, usa o download normal do navegador.
+            if (window.claude && typeof window.claude.use === 'function') {
+                const downloads = await window.claude.use('downloads');
+                if (downloads) {
+                    try {
+                        await downloads.save({ filename, data: content });
+                        showNotification(okMessage);
+                    } catch (err) {
+                        if (err && err.code === 'declined') showNotification('Download cancelado', 'error');
+                        else showNotification('Não foi possível baixar o arquivo aqui', 'error');
+                    }
+                    return;
+                }
+            }
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showNotification(okMessage);
+        }
+
+        function exportData() {
+            const payload = Object.assign({ exportedAt: new Date().toISOString() }, appState);
+            downloadFile(JSON.stringify(payload, null, 2), `catalogo-backup-${new Date().toISOString().split('T')[0]}.json`, 'application/json', 'Backup exportado');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json,.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (file.size > 2 * 1024 * 1024) { showNotification('Arquivo grande demais (máx. 2 MB)', 'error'); return; }
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const imported = sanitizeState(JSON.parse(event.target.result));
+                        if (!confirm(`Importar ${imported.services.length} serviços? Os dados atuais serão substituídos.`)) return;
+                        appState = imported;
+                        saveData('Backup importado');
+                        applyTheme();
+                        renderBrand();
+                        refreshAll();
+                        if (document.getElementById('editor-panel').classList.contains('active')) {
+                            toggleEditor(); toggleEditor();
+                        }
+                    } catch (error) {
+                        showNotification('Arquivo inválido: ' + error.message, 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function exportHTML() {
+            downloadFile(generateOfflineHTML(), `catalogo-offline-${new Date().toISOString().split('T')[0]}.html`, 'text/html', 'Versão offline exportada');
+        }
+
+        function generateOfflineHTML() {
+            const c = appState.primaryColor;
+            const services = appState.services.filter(s => s.isActive).map(s => `
+        <div class="service">
+            <div class="category">${escapeHTML(getCategoryLabel(s.category))}${s.isCombo ? ' · Combo' : ''}</div>
+            <h3>${escapeHTML(s.name)}</h3>
+            <p>${escapeHTML(s.description)}</p>
+            <div class="price">${formatPrice(s.price)}</div>
+            <a class="wa" href="${escapeHTML(buildWhatsAppUrl(s.name))}" target="_blank" rel="noopener">Agendar pelo WhatsApp (requer internet)</a>
+        </div>`).join('');
+            return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHTML(appState.brandName)} — Catálogo</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; margin: 0; padding: 20px; background: #fbf3f3; color: #333; }
+  .container { max-width: 760px; margin: 0 auto; }
+  header { background: ${c}; color: #fff; padding: 32px 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+  header h1 { margin: 0 0 8px; }
+  .service { background: #fff; padding: 18px 20px; margin: 12px 0; border-radius: 10px; border-left: 4px solid ${c}; }
+  .service h3 { margin: 6px 0; }
+  .service p { color: #555; margin: 6px 0; line-height: 1.5; }
+  .price { font-size: 1.4em; color: ${c}; font-weight: bold; margin: 8px 0; filter: brightness(0.75); }
+  .category { color: #777; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+  .wa { display: inline-block; margin-top: 6px; color: #fff; background: ${c}; padding: 10px 16px; border-radius: 20px; text-decoration: none; font-family: sans-serif; font-size: 0.9em; }
+  .note { font-size: 0.85em; color: #888; text-align: center; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header><h1>${escapeHTML(appState.brandName)}</h1><p>${escapeHTML(appState.brandSubtitle)}</p></header>
+  ${services}
+  <p class="note">Valores demonstrativos · Catálogo gerado em ${new Date().toLocaleString('pt-BR')}</p>
+</div>
+</body>
+</html>`;
+        }
+
+        function resetToDemo() {
+            if (confirm('Restaurar os dados demonstrativos? Marca, cores e serviços atuais serão substituídos.')) {
+                appState = defaultState();
+                saveData('Dados demonstrativos restaurados');
+                applyTheme();
+                renderBrand();
+                refreshAll();
+                toggleEditor(); toggleEditor();
+            }
+        }
+
+        // ===== Eventos =====
+        function setupEventListeners() {
+            document.getElementById('edit-btn').addEventListener('click', toggleEditor);
+            document.getElementById('search-input').addEventListener('input', renderServices);
+            document.getElementById('hero-whatsapp').addEventListener('click', () => openWhatsApp(null));
+            document.getElementById('nav-whatsapp').addEventListener('click', () => openWhatsApp(null));
+            document.getElementById('modal-overlay').addEventListener('click', closeFormModal);
+
+            document.getElementById('service-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'service-modal') closeModal();
+            });
+
+            document.getElementById('filters').addEventListener('click', (e) => {
+                const btn = e.target.closest('.filter-btn');
+                if (btn) filterByCategory(btn.dataset.category);
+            });
+
+            const grid = document.getElementById('services-grid');
+            grid.addEventListener('click', (e) => {
+                const card = e.target.closest('.service-card');
+                if (card) openServiceDetail(Number(card.dataset.id));
+            });
+            grid.addEventListener('keydown', (e) => {
+                const card = e.target.closest('.service-card');
+                if (card && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    openServiceDetail(Number(card.dataset.id));
+                }
+            });
+
+            document.getElementById('color-picker').addEventListener('click', (e) => {
+                const opt = e.target.closest('.color-option');
+                if (opt) changeColor(opt.dataset.color);
+            });
+
+            document.getElementById('edit-services-list').addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-action]');
+                if (!btn) return;
+                const id = Number(btn.dataset.id);
+                if (btn.dataset.action === 'edit') editService(id);
+                if (btn.dataset.action === 'toggle') toggleServiceActive(id);
+                if (btn.dataset.action === 'delete') deleteService(id);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (document.getElementById('form-modal').classList.contains('active')) closeFormModal();
+                else if (document.getElementById('service-modal').classList.contains('active')) closeModal();
+                else if (document.getElementById('editor-panel').classList.contains('active')) toggleEditor();
+            });
+
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+        }
+
+        function scrollToServices() {
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            document.getElementById('services-section').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        }
+
+        function showNotification(message, type = 'success') {
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.setAttribute('role', 'status');
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function updateOnlineStatus() {
+            document.getElementById('offline-status').textContent = navigator.onLine ? 'Online' : 'Offline — WhatsApp indisponível';
+        }
+
+        init();
+    </script>
+</body>
+</html>
